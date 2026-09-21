@@ -1,115 +1,129 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>삼성전자 재무 대시보드</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<title>삼성전자 재무 대시보드</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f7fa;
-            margin: 0;
-            padding: 30px;
-            color: #222;
-        }
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-        .container {
-            max-width: 1200px;
-            margin: auto;
-        }
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    margin: 0;
+    color: #222;
+}
 
-        h1 {
-            margin-bottom: 5px;
-        }
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 30px;
+}
 
-        .subtitle {
-            color: #666;
-            margin-bottom: 30px;
-        }
+h1 {
+    margin-bottom: 5px;
+}
 
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
+.subtitle {
+    color: #666;
+    margin-bottom: 30px;
+}
 
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
+.cards {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
 
-        .card h3 {
-            margin-top: 0;
-            color: #666;
-            font-size: 14px;
-        }
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
 
-        .value {
-            font-size: 25px;
-            font-weight: bold;
-        }
+.card h3 {
+    color: #666;
+    font-size: 14px;
+}
 
-        .chart-box {
-            background: white;
-            margin-top: 25px;
-            padding: 20px;
-            border-radius: 12px;
-        }
-    </style>
+.value {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.chart {
+    margin-top: 25px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+}
+
+.status {
+    margin-top: 20px;
+    color: #666;
+}
+</style>
 </head>
 
 <body>
 
 <div class="container">
 
-    <h1>삼성전자 재무 대시보드</h1>
-    <div class="subtitle">
-        DART 공시 기반 재무정보
-    </div>
+<h1>삼성전자 재무 대시보드</h1>
 
-    <div class="cards">
+<div class="subtitle">
+DART OpenAPI 기반 자동 재무분석
+</div>
 
-        <div class="card">
-            <h3>매출액</h3>
-            <div class="value" id="revenue">-</div>
-        </div>
+<div class="cards">
 
-        <div class="card">
-            <h3>영업이익</h3>
-            <div class="value" id="operatingProfit">-</div>
-        </div>
+<div class="card">
+<h3>매출액</h3>
+<div class="value" id="revenue">-</div>
+</div>
 
-        <div class="card">
-            <h3>당기순이익</h3>
-            <div class="value" id="netIncome">-</div>
-        </div>
+<div class="card">
+<h3>영업이익</h3>
+<div class="value" id="operating_profit">-</div>
+</div>
 
-        <div class="card">
-            <h3>영업이익률</h3>
-            <div class="value" id="operatingMargin">-</div>
-        </div>
+<div class="card">
+<h3>당기순이익</h3>
+<div class="value" id="net_income">-</div>
+</div>
 
-        <div class="card">
-            <h3>ROE</h3>
-            <div class="value" id="roe">-</div>
-        </div>
+<div class="card">
+<h3>영업이익률</h3>
+<div class="value" id="operating_margin">-</div>
+</div>
 
-        <div class="card">
-            <h3>부채비율</h3>
-            <div class="value" id="debtRatio">-</div>
-        </div>
+<div class="card">
+<h3>ROE</h3>
+<div class="value" id="roe">-</div>
+</div>
 
-    </div>
+<div class="card">
+<h3>부채비율</h3>
+<div class="value" id="debt_ratio">-</div>
+</div>
 
-    <div class="chart-box">
-        <h2>매출 및 영업이익 추이</h2>
-        <canvas id="financialChart"></canvas>
-    </div>
+</div>
+
+<div class="chart">
+
+<h2>연도별 매출 / 영업이익</h2>
+
+<canvas id="financialChart"></canvas>
+
+</div>
+
+<div class="status" id="status">
+데이터를 불러오는 중...
+</div>
 
 </div>
 
@@ -119,92 +133,68 @@ async function loadData() {
 
     try {
 
-        const response = await fetch("../data/financial_data.json");
+        const response =
+            await fetch("data.json");
 
-        const data = await response.json();
+        const data =
+            await response.json();
 
-        const years = Object.keys(data).sort();
+        console.log(data);
 
-        const latestYear = years[years.length - 1];
+        document.getElementById("status")
+            .innerText =
+            "DART 데이터 연결 완료";
 
-        const latest = data[latestYear].financials;
+        /*
+         * 현재 data.json 구조에 맞춰
+         * 다음 단계에서 자동 연결합니다.
+         */
 
-        const financials = latest;
+        if (data.revenue) {
 
-        document.getElementById("revenue").innerText =
-            formatNumber(financials.revenue);
+            document.getElementById("revenue")
+                .innerText =
+                formatMoney(data.revenue);
 
-        document.getElementById("operatingProfit").innerText =
-            formatNumber(financials.operating_profit);
+        }
 
-        document.getElementById("netIncome").innerText =
-            formatNumber(financials.net_income);
+        if (data.operating_profit) {
 
-        document.getElementById("operatingMargin").innerText =
-            financials.ratios.operating_margin.toFixed(2) + "%";
+            document.getElementById("operating_profit")
+                .innerText =
+                formatMoney(data.operating_profit);
 
-        document.getElementById("roe").innerText =
-            financials.ratios.roe.toFixed(2) + "%";
+        }
 
-        document.getElementById("debtRatio").innerText =
-            financials.ratios.debt_ratio.toFixed(2) + "%";
+        if (data.net_income) {
 
+            document.getElementById("net_income")
+                .innerText =
+                formatMoney(data.net_income);
 
-        const revenue = [];
-        const operatingProfit = [];
+        }
 
-        years.forEach(year => {
+    }
 
-            const f = data[year].financials;
-
-            revenue.push(f.revenue / 1000000);
-            operatingProfit.push(f.operating_profit / 1000000);
-
-        });
-
-
-        new Chart(
-            document.getElementById("financialChart"),
-            {
-                type: "bar",
-
-                data: {
-                    labels: years,
-
-                    datasets: [
-                        {
-                            label: "매출액 (조원)",
-                            data: revenue
-                        },
-                        {
-                            label: "영업이익 (조원)",
-                            data: operatingProfit
-                        }
-                    ]
-                },
-
-                options: {
-                    responsive: true
-                }
-            }
-        );
-
-    } catch (error) {
+    catch (error) {
 
         console.error(error);
+
+        document.getElementById("status")
+            .innerText =
+            "데이터를 불러오지 못했습니다.";
 
     }
 
 }
 
 
-function formatNumber(value) {
+function formatMoney(value) {
 
-    if (!value) {
-        return "-";
-    }
+    if (!value) return "-";
 
-    return (value / 1000000).toFixed(2) + "조원";
+    return Number(value)
+        .toLocaleString("ko-KR");
 
 }
 
