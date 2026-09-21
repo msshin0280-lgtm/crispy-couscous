@@ -1,1 +1,67 @@
-[]
+[
+  {
+    "year": "2020",
+    "revenue": 0.0,
+    "operating_income": 0.0,
+    "net_income": 0.0,
+    "total_assets": 0.0,
+    "total_liabilities": 0.0,
+    "total_equity": 0.0,
+    "op_margin": 0,
+    "net_margin": 0,
+    "debt_ratio": 0,
+    "roe": 0
+  },
+  {
+    "year": "2021",
+    "revenue": 0.0,
+    "operating_income": 0.0,
+    "net_income": 0.0,
+    "total_assets": 0.0,
+    "total_liabilities": 0.0,
+    "total_equity": 0.0,
+    "op_margin": 0,
+    "net_margin": 0,
+    "debt_ratio": 0,
+    "roe": 0
+  },
+  {
+    "year": "2022",
+    "revenue": 0.0,
+    "operating_income": 0.0,
+    "net_income": 0.0,
+    "total_assets": 0.0,
+    "total_liabilities": 0.0,
+    "total_equity": 0.0,
+    "op_margin": 0,
+    "net_margin": 0,
+    "debt_ratio": 0,
+    "roe": 0
+  },
+  {
+    "year": "2023",
+    "revenue": 0.0,
+    "operating_income": 0.0,
+    "net_income": 0.0,
+    "total_assets": 0.0,
+    "total_liabilities": 0.0,
+    "total_equity": 0.0,
+    "op_margin": 0,
+    "net_margin": 0,
+    "debt_ratio": 0,
+    "roe": 0
+  },
+  {
+    "year": "2024",
+    "revenue": 0.0,
+    "operating_income": 0.0,
+    "net_income": 0.0,
+    "total_assets": 0.0,
+    "total_liabilities": 0.0,
+    "total_equity": 0.0,
+    "op_margin": 0,
+    "net_margin": 0,
+    "debt_ratio": 0,
+    "roe": 0
+  }
+]
