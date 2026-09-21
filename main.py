@@ -1,16 +1,11 @@
 import os
 import json
 import requests
-import pandas as pd
 
 DART_API_KEY = os.environ.get("DART_API_KEY")
 CORP_CODE = "00126380"  # 삼성전자 고유번호
 
 def get_financial_data(year, reprt_code="11011"):
-    """
-    reprt_code:
-    11013: 1분기, 11012: 반기, 11014: 3분기, 11011: 사업보고서(4분기)
-    """
     url = "https://opendart.fss.or.kr/api/fnlttSinglAcct.json"
     params = {
         "crtfc_key": DART_API_KEY,
@@ -23,8 +18,8 @@ def get_financial_data(year, reprt_code="11011"):
     data = res.json()
     
     if data.get("status") != "000":
-        print(f"Error fetching data for {year}: {data.get('message')}")
-        return None
+        print(f"[{year}] DART API응답 오류: {data.get('message')}")
+        return []
         
     return data.get("list", [])
 
@@ -33,26 +28,35 @@ def parse_financials(years):
     
     for year in years:
         items = get_financial_data(year)
-        if not items:
-            continue
-            
-        data_dict = {"year": str(year)}
+        data_dict = {
+            "year": str(year),
+            "revenue": 0.0,
+            "operating_income": 0.0,
+            "net_income": 0.0,
+            "total_assets": 0.0,
+            "total_liabilities": 0.0,
+            "total_equity": 0.0
+        }
         
         for item in items:
-            account_nm = item.get("account_nm")
-            amount_str = item.get("thstrm_amount", "0").replace(",", "")
+            # CFS(연결재무제표) 또는 OFS(재무제표) 모두 대응
+            account_nm = item.get("account_nm", "").strip()
+            amount_str = item.get("thstrm_amount", "0").replace(",", "").strip()
             
             try:
                 amount = float(amount_str)
             except ValueError:
                 amount = 0.0
                 
-            if account_nm in ["매출액", "수익(매출액)"]:
-                data_dict["revenue"] = amount
-            elif account_nm in ["영업이익", "영업이익(손실)"]:
-                data_dict["operating_income"] = amount
-            elif account_nm in ["당기순이익", "당기순이익(손실)"]:
-                data_dict["net_income"] = amount
+            if any(k in account_nm for k in ["매출액", "수익(매출액)", "매출"]):
+                if data_dict["revenue"] == 0:
+                    data_dict["revenue"] = amount
+            elif "영업이익" in account_nm:
+                if data_dict["operating_income"] == 0:
+                    data_dict["operating_income"] = amount
+            elif "당기순이익" in account_nm:
+                if data_dict["net_income"] == 0:
+                    data_dict["net_income"] = amount
             elif account_nm == "자산총계":
                 data_dict["total_assets"] = amount
             elif account_nm == "부채총계":
@@ -60,13 +64,11 @@ def parse_financials(years):
             elif account_nm == "자본총계":
                 data_dict["total_equity"] = amount
                 
-        # 주요 재무비율 계산
-        revenue = data_dict.get("revenue", 0)
-        op_inc = data_dict.get("operating_income", 0)
-        net_inc = data_dict.get("net_income", 0)
-        assets = data_dict.get("total_assets", 0)
-        liab = data_dict.get("total_liabilities", 0)
-        equity = data_dict.get("total_equity", 0)
+        revenue = data_dict["revenue"]
+        op_inc = data_dict["operating_income"]
+        net_inc = data_dict["net_income"]
+        liab = data_dict["total_liabilities"]
+        equity = data_dict["total_equity"]
         
         data_dict["op_margin"] = round((op_inc / revenue * 100), 2) if revenue else 0
         data_dict["net_margin"] = round((net_inc / revenue * 100), 2) if revenue else 0
@@ -78,10 +80,11 @@ def parse_financials(years):
     return records
 
 if __name__ == "__main__":
-    target_years = [2021, 2022, 2023, 2024, 2025]
+    # 최근 5개년 수치 수집
+    target_years = [2020, 2021, 2022, 2023, 2024]
     result_data = parse_financials(target_years)
     
     with open("data.json", "w", encoding="utf-8") as f:
         json.dump(result_data, f, ensure_ascii=False, indent=2)
         
-    print("DART financial data successfully updated & saved to data.json")
+    print("DART 재무데이터 업데이트 완료")
