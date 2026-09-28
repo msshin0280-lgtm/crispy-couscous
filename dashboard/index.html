@@ -1,207 +1,141 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>삼성전자 재무 대시보드</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Shin Min Seung — AI, Data & Healthcare Portfolio Dashboard">
+<title>SHIN MIN SEUNG | Portfolio Dashboard</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background: #f4f6f8;
-    margin: 0;
-    color: #222;
-}
-
-.container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 30px;
-}
-
-h1 {
-    margin-bottom: 5px;
-}
-
-.subtitle {
-    color: #666;
-    margin-bottom: 30px;
-}
-
-.cards {
-    display: grid;
-    grid-template-columns:
-        repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-}
-
-.card {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.08);
-}
-
-.card h3 {
-    color: #666;
-    font-size: 14px;
-}
-
-.value {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.chart {
-    margin-top: 25px;
-    padding: 20px;
-    background: white;
-    border-radius: 12px;
-}
-
-.status {
-    margin-top: 20px;
-    color: #666;
-}
-</style>
+<link rel="stylesheet" href="./style.css">
 </head>
-
 <body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">SM</div>
+      <div><strong>SHIN MIN SEUNG</strong><span>PORTFOLIO</span></div>
+    </div>
+    <nav>
+      <button class="nav-item active" data-view="overview"><i>01</i> Overview</button>
+      <button class="nav-item" data-view="about"><i>02</i> About</button>
+      <button class="nav-item" data-view="reports"><i>03</i> AI Reports</button>
+      <button class="nav-item" data-view="qualifications"><i>04</i> Qualifications</button>
+      <button class="nav-item" data-view="activities"><i>05</i> Activities</button>
+    </nav>
+    <div class="side-bottom">
+      <a href="https://github.com/msshin0280-lgtm/crispy-couscous" target="_blank">GitHub ↗</a>
+      <a id="linkedinSide" href="#" target="_blank">LinkedIn ↗</a>
+      <small>© 2026 Shin Min Seung</small>
+    </div>
+  </aside>
 
-<div class="container">
+  <main class="content">
+    <header class="topbar">
+      <div>
+        <div class="kicker">AI • DATA • HEALTHCARE</div>
+        <h1 id="pageTitle">Portfolio Overview</h1>
+      </div>
+      <div class="top-actions">
+        <span class="live-dot"></span><span>Updated Sep 2026</span>
+        <a class="outline" href="https://github.com/msshin0280-lgtm/crispy-couscous" target="_blank">Repository ↗</a>
+      </div>
+    </header>
 
-<h1>삼성전자 재무 대시보드</h1>
+    <section class="view active" id="overview">
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="pill">PERSONAL INTELLIGENCE DASHBOARD</span>
+          <h2>데이터를 구조화하고,<br><em>AI로 결과를 만드는 사람</em></h2>
+          <p>간호학 전공과 현장 경험을 바탕으로 데이터를 관찰하고, AI와 자동화를 활용해 분석·리서치·보고서로 연결합니다.</p>
+          <div class="hero-links">
+            <button class="primary" data-jump="reports">AI-Generated Reports →</button>
+            <button class="ghost" data-jump="about">View CV</button>
+          </div>
+        </div>
+        <div class="hero-profile">
+          <div class="profile-avatar">SMS</div>
+          <div>
+            <strong>신민승</strong>
+            <span>4th-year Nursing Student</span>
+            <small>AI / Data / Research</small>
+          </div>
+        </div>
+      </div>
 
-<div class="subtitle">
-DART OpenAPI 기반 자동 재무분석
+      <div class="metric-grid" id="overviewMetrics"></div>
+
+      <div class="two-col">
+        <article class="panel chart-panel">
+          <div class="panel-head"><div><h3>Portfolio Activity</h3><p>최근 프로젝트·리서치·활동 흐름</p></div><span class="period">2026</span></div>
+          <div class="chart-box"><canvas id="activityChart"></canvas></div>
+        </article>
+        <article class="panel chart-panel">
+          <div class="panel-head"><div><h3>Focus Areas</h3><p>포트폴리오 구성</p></div></div>
+          <div class="chart-box doughnut"><canvas id="focusChart"></canvas></div>
+        </article>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><div><h3>Recent AI-Generated Reports</h3><p>분석 산출물을 대시보드 형태로 관리합니다.</p></div><button class="link-button" data-jump="reports">View all →</button></div>
+        <div class="table-wrap"><table><thead><tr><th>TYPE</th><th>REPORT</th><th>WORKFLOW</th><th>DATE</th><th></th></tr></thead><tbody id="recentReports"></tbody></table></div>
+      </div>
+    </section>
+
+    <section class="view" id="about">
+      <div class="view-heading"><div><span class="kicker">02 / ABOUT</span><h2>About Me</h2><p>CV와 경험을 대시보드형으로 정리했습니다.</p></div><div class="actions"><a class="outline" href="https://github.com/msshin0280-lgtm/crispy-couscous" target="_blank">GitHub ↗</a><a id="linkedinAbout" class="outline" href="#" target="_blank">LinkedIn ↗</a></div></div>
+      <div class="about-top">
+        <article class="panel identity">
+          <div class="profile-avatar large">SMS</div><span class="pill">DATA • AI • HEALTHCARE</span>
+          <h3>신민승</h3><p>한림성심대학교 간호학과 4학년</p>
+          <div class="contact-links"><a href="https://github.com/msshin0280-lgtm/crispy-couscous" target="_blank">GitHub ↗</a><a id="linkedinIdentity" href="#" target="_blank">LinkedIn ↗</a></div>
+        </article>
+        <article class="panel">
+          <h3>Profile</h3>
+          <p class="large-copy">환자의 상황을 세심하게 관찰하고 기록하는 간호학 전공 경험을 바탕으로, 데이터를 구조화하고 AI를 활용해 반복적인 분석 업무를 효율화하는 데 관심이 있습니다.</p>
+          <div class="tag-list"><span>AI Automation</span><span>Data Analysis</span><span>Research</span><span>Dashboard</span><span>Healthcare</span></div>
+        </article>
+      </div>
+      <div class="three-col">
+        <article class="panel"><span class="number">01</span><h3>Education</h3><b>한림성심대학교</b><p>간호학과 · 4학년</p><small>전공 교육 및 임상실습</small></article>
+        <article class="panel"><span class="number">02</span><h3>Healthcare Experience</h3><b>병원 현장 경험</b><p>국가근로 · 병동 지원 · 임상실습</p><small>업무 관찰, 물품·업무 지원, 환자안전 중심 경험</small></article>
+        <article class="panel"><span class="number">03</span><h3>AI & Data</h3><b>Research / Automation</b><p>기업분석 · 데이터 대시보드</p><small>반복 업무를 구조화하고 결과를 시각화</small></article>
+      </div>
+      <article class="panel">
+        <div class="panel-head"><div><h3>Career & Experience Timeline</h3><p>주요 경험을 시간순으로 정리했습니다.</p></div></div>
+        <div class="timeline">
+          <div><span>2026</span><b>AI & Data Portfolio</b><p>기업분석, 자동화, 대시보드 프로젝트를 포트폴리오로 확장</p></div>
+          <div><span>2026</span><b>Clinical Practice</b><p>병동 및 임상실습을 통해 현장 관찰과 환자안전 중심의 업무 경험</p></div>
+          <div><span>2023 — 2026</span><b>Nursing Education</b><p>한림성심대학교 간호학과 전공 교육</p></div>
+          <div><span>Previous</span><b>Military Hospital / Public Service Experience</b><p>응급상황 대응과 의료 현장에서의 책임감·협업 경험</p></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="view" id="reports">
+      <div class="view-heading"><div><span class="kicker">03 / AI-GENERATED REPORTS</span><h2>AI Research Dashboard</h2><p>AI 자동화로 만든 기업분석·리서치·데이터 산출물</p></div><a class="primary" href="https://github.com/msshin0280-lgtm/crispy-couscous" target="_blank">Open GitHub Dashboard ↗</a></div>
+      <div class="metric-grid" id="reportMetrics"></div>
+      <div class="report-toolbar"><div id="reportFilters"></div><input id="reportSearch" type="search" placeholder="보고서 검색…"></div>
+      <div class="report-grid" id="reportGrid"></div>
+    </section>
+
+    <section class="view" id="qualifications">
+      <div class="view-heading"><div><span class="kicker">04 / QUALIFICATIONS & CERTIFICATIONS</span><h2>Qualifications</h2><p>자격·교육·수료 및 전문역량</p></div></div>
+      <div class="metric-grid" id="qualificationMetrics"></div>
+      <div class="qualification-grid" id="qualificationGrid"></div>
+      <div class="notice">※ 실제 자격증/수료증 이미지와 발급일을 추가하려면 <b>dashboard/data.json</b>의 qualifications 배열만 수정하면 됩니다.</div>
+    </section>
+
+    <section class="view" id="activities">
+      <div class="view-heading"><div><span class="kicker">05 / ACTIVITIES</span><h2>Activities</h2><p>교내외 활동·프로젝트·공모전 및 최근 기록</p></div></div>
+      <div class="activity-layout">
+        <article class="panel"><div class="panel-head"><div><h3>Activity Timeline</h3><p>최근 활동부터 표시됩니다.</p></div></div><div id="activityTimeline"></div></article>
+        <article class="panel"><h3>Activity Summary</h3><div id="activitySummary"></div></article>
+      </div>
+    </section>
+  </main>
 </div>
-
-<div class="cards">
-
-<div class="card">
-<h3>매출액</h3>
-<div class="value" id="revenue">-</div>
-</div>
-
-<div class="card">
-<h3>영업이익</h3>
-<div class="value" id="operating_profit">-</div>
-</div>
-
-<div class="card">
-<h3>당기순이익</h3>
-<div class="value" id="net_income">-</div>
-</div>
-
-<div class="card">
-<h3>영업이익률</h3>
-<div class="value" id="operating_margin">-</div>
-</div>
-
-<div class="card">
-<h3>ROE</h3>
-<div class="value" id="roe">-</div>
-</div>
-
-<div class="card">
-<h3>부채비율</h3>
-<div class="value" id="debt_ratio">-</div>
-</div>
-
-</div>
-
-<div class="chart">
-
-<h2>연도별 매출 / 영업이익</h2>
-
-<canvas id="financialChart"></canvas>
-
-</div>
-
-<div class="status" id="status">
-데이터를 불러오는 중...
-</div>
-
-</div>
-
-<script>
-
-async function loadData() {
-
-    try {
-
-        const response =
-            await fetch("data.json");
-
-        const data =
-            await response.json();
-
-        console.log(data);
-
-        document.getElementById("status")
-            .innerText =
-            "DART 데이터 연결 완료";
-
-        /*
-         * 현재 data.json 구조에 맞춰
-         * 다음 단계에서 자동 연결합니다.
-         */
-
-        if (data.revenue) {
-
-            document.getElementById("revenue")
-                .innerText =
-                formatMoney(data.revenue);
-
-        }
-
-        if (data.operating_profit) {
-
-            document.getElementById("operating_profit")
-                .innerText =
-                formatMoney(data.operating_profit);
-
-        }
-
-        if (data.net_income) {
-
-            document.getElementById("net_income")
-                .innerText =
-                formatMoney(data.net_income);
-
-        }
-
-    }
-
-    catch (error) {
-
-        console.error(error);
-
-        document.getElementById("status")
-            .innerText =
-            "데이터를 불러오지 못했습니다.";
-
-    }
-
-}
-
-
-function formatMoney(value) {
-
-    if (!value) return "-";
-
-    return Number(value)
-        .toLocaleString("ko-KR");
-
-}
-
-
-loadData();
-
-</script>
-
+<div id="toast" class="toast"></div>
+<script src="./app.js"></script>
 </body>
 </html>
