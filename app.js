@@ -2,7 +2,7 @@ const DATA = {
   linkedin: "https://www.linkedin.com/in/%EB%AF%BC%EC%8A%B9-%EC%8B%A0-58727343b/",
   metrics: {reports: 6, topics: 4, qualifications: 5, activities: 5},
   reports: [
-    {type:"기업분석",title:"삼성전자 재무 분석 대시보드",workflow:"DART API · Python · Dashboard",date:"2026.09",desc:"OpenDART 데이터를 자동 수집하고 매출·영업이익·순이익 및 재무비율을 계산해 대시보드로 표현.",url:"../dashboard/"},
+    {type:"기업분석",title:"삼성전자 재무 분석 대시보드",workflow:"DART API · Python · Dashboard",date:"2026.09",desc:"OpenDART 데이터를 자동 수집하고 매출·영업이익·순이익 및 재무비율을 계산해 대시보드로 표현.",url:"./dashboard/"},
     {type:"기업분석",title:"AI 기업분석 Report Workflow",workflow:"AI · Research · Automation",date:"2026.09",desc:"기업 자료 수집부터 핵심 지표 정리와 보고서 작성까지 반복 가능한 workflow로 구조화.",url:"#"},
     {type:"시장분석",title:"산업 동향 및 시장 리서치",workflow:"AI · Web Research",date:"2026.08",desc:"뉴스와 공개자료를 수집해 산업 변화와 주요 이슈를 요약하고 비교.",url:"#"},
     {type:"데이터분석",title:"KPI 기반 기업 비교 분석",workflow:"Python · Data Visualization",date:"2026.07",desc:"핵심 지표를 표준화하고 비교 가능한 형태로 시각화.",url:"#"},
