@@ -1,5 +1,5 @@
 const DATA = {
-  linkedin: "https://www.linkedin.com/",
+  linkedin: "https://www.linkedin.com/in/%EB%AF%BC%EC%8A%B9-%EC%8B%A0-58727343b/",
   metrics: {reports: 6, topics: 4, qualifications: 5, activities: 5},
   reports: [
     {type:"기업분석",title:"삼성전자 재무 분석 대시보드",workflow:"DART API · Python · Dashboard",date:"2026.09",desc:"OpenDART 데이터를 자동 수집하고 매출·영업이익·순이익 및 재무비율을 계산해 대시보드로 표현.",url:"../dashboard/"},
